@@ -26,7 +26,7 @@ Script supports auto install agent or panel for any os supported
 	
     curl -O https://raw.githubusercontent.com/SanjaySRocks/OGP-Installer/master/install-agent.sh
 
-### install c++ ubuntu
+### install c++ ubuntu (Optional for samp server)
 
 	sudo apt install libstdc++6
 
