@@ -26,5 +26,10 @@ Script supports auto install agent or panel for any os supported
 	
     curl -O https://raw.githubusercontent.com/SanjaySRocks/OGP-Installer/master/install-agent.sh
 
+### install c++ ubuntu
+
+	sudo apt install libstdc++6
+
+
 ### OpenGamePanel GitHub
 https://github.com/OpenGamePanel
