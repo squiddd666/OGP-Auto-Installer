@@ -12,7 +12,7 @@ Automated bash installer for [Open Game Panel (OGP)](https://www.opengamepanel.o
 - Automated panel setup (database + admin user)
 - Local agent registered in the panel
 - Local MariaDB registered in **OGP MySQL Admin**
-- **phpMyAdmin** at `/phpmyadmin/` (HTTP basic auth + MariaDB root login)
+- **phpMyAdmin** at `/phpmyadmin/` (MariaDB root login)
 - Optional UFW rules and 2 GB swap
 
 All services share one unified password unless you set `PASSWORD` yourself. The OGP agent encryption key is limited to **16 characters** (auto-truncated from `PASSWORD` if needed).
@@ -48,7 +48,6 @@ Use `sudo -E` so exported variables are passed through.
 | `SETUP_MYSQL_HOST` | `yes` | Register local MariaDB in OGP MySQL Admin |
 | `MYSQL_HOST_NAME` | `Local MariaDB` | Display name for the MySQL host in the panel |
 | `INSTALL_PHPMYADMIN` | `yes` | Install phpMyAdmin at `/phpmyadmin/` |
-| `PMA_USER` | `admin` | HTTP basic auth username for phpMyAdmin |
 | `CONFIGURE_FIREWALL` | `yes` | UFW rules (22, 80, 443, agent, FTP, game ports) |
 | `INSTALL_SWAP` | `yes` | 2 GB swap file |
 | `USE_NAT` | `1` | NAT-friendly display IP (GCP/AWS) |
@@ -74,8 +73,7 @@ Credentials are saved to `/root/ogp-credentials.txt`. Install log: `/var/log/ogp
 
 ### phpMyAdmin login
 
-1. HTTP popup: user `admin` (or `PMA_USER`), password = your unified `PASSWORD`
-2. MariaDB screen: user `root`, password = your unified `PASSWORD`
+MariaDB: user `root`, password = your unified `PASSWORD`
 
 ### OGP MySQL Admin
 

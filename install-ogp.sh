@@ -45,7 +45,6 @@ MYSQL_HOST_NAME="${MYSQL_HOST_NAME:-Local MariaDB}"
 MYSQL_HOST_IP="${MYSQL_HOST_IP:-localhost}"
 MYSQL_PORT="${MYSQL_PORT:-3306}"
 INSTALL_PHPMYADMIN="${INSTALL_PHPMYADMIN:-yes}"
-PMA_USER="${PMA_USER:-admin}"
 CONFIGURE_FIREWALL="${CONFIGURE_FIREWALL:-yes}"
 INSTALL_AGENT="${INSTALL_AGENT:-yes}"
 INSTALL_SWAP="${INSTALL_SWAP:-yes}"
@@ -504,25 +503,13 @@ $cfg['Servers'][$i]['AllowNoPassword'] = false;
 $cfg['Servers'][$i]['AllowRoot'] = true;
 PHP
 
-    printf '%s:%s\n' "$PMA_USER" "$(openssl passwd -apr1 "$PASSWORD")" > /etc/apache2/.phpmyadmin
-    chmod 640 /etc/apache2/.phpmyadmin
-    chown root:www-data /etc/apache2/.phpmyadmin
-
-    cat > /etc/apache2/conf-available/ogp-phpmyadmin-auth.conf <<'APACHE'
-<Directory /usr/share/phpmyadmin>
-    AuthType Basic
-    AuthName "phpMyAdmin"
-    AuthUserFile /etc/apache2/.phpmyadmin
-    Require valid-user
-</Directory>
-APACHE
-
+    a2disconf ogp-phpmyadmin-auth 2>/dev/null || true
+    rm -f /etc/apache2/conf-available/ogp-phpmyadmin-auth.conf /etc/apache2/.phpmyadmin
     a2enconf phpmyadmin 2>/dev/null || true
-    a2enconf ogp-phpmyadmin-auth 2>/dev/null || true
     apache2ctl configtest
     systemctl reload apache2
 
-    ok "phpMyAdmin: http://${FQDN}/phpmyadmin/ (HTTP user: ${PMA_USER})"
+    ok "phpMyAdmin: http://${FQDN}/phpmyadmin/"
 }
 
 setup_firewall() {
@@ -597,8 +584,6 @@ Root pass: ${PASSWORD}  (used by OGP to create game DBs)
 phpMyAdmin
 ----------
 URL:       http://${FQDN}/phpmyadmin/
-HTTP user: ${PMA_USER}
-HTTP pass: ${PASSWORD}
 MariaDB:   root / ${PASSWORD}
 
 Services:
@@ -652,7 +637,7 @@ main() {
     [[ "$SETUP_MYSQL_HOST" == "yes" ]] && \
         echo "  MySQL:  http://${FQDN}/home.php?m=mysql&p=mysql_admin"
     [[ "$INSTALL_PHPMYADMIN" == "yes" ]] && \
-        echo "  phpMyAdmin: http://${FQDN}/phpmyadmin/ (user: ${PMA_USER})"
+        echo "  phpMyAdmin: http://${FQDN}/phpmyadmin/"
     echo
     echo "  Details: ${CREDENTIALS_FILE}"
     echo
