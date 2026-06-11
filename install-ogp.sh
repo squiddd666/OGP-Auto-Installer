@@ -176,8 +176,8 @@ install_dependencies() {
     # 32-bit libs for some game servers (best effort)
     dpkg --add-architecture i386 2>/dev/null || true
     apt-get update -qq
-    apt-get install -y -qq libc6-i386 libgcc-s1:i386 2>/dev/null || \
-        apt-get install -y -qq libc6-i386 lib32gcc1 2>/dev/null || true
+    apt-get install -y -qq libc6-i386 libgcc-s1:i386 libstdc++6:i386 2>/dev/null || \
+        apt-get install -y -qq libc6-i386 lib32gcc1 lib32stdc++6 2>/dev/null || true
 
     a2enmod rewrite
     systemctl enable apache2 mariadb
@@ -524,6 +524,7 @@ setup_firewall() {
     ufw allow "${AGENT_PORT}/tcp" 2>/dev/null || true
     ufw allow "${FTP_PORT}/tcp" 2>/dev/null || true
     ufw allow 27015:27030/tcp 2>/dev/null || true
+    ufw allow 27015:27030/udp 2>/dev/null || true
     ufw allow 25565:25575/tcp 2>/dev/null || true
     ok "UFW configured."
 }
