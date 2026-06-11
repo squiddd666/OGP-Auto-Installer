@@ -92,15 +92,6 @@ Log into the OGP panel first as admin, then open MySQL Admin to create databases
 
 Use a **fresh VPS** for the smoothest install. Reinstalling on a server with leftover MariaDB data may require the script to reinitialize the database directory.
 
-## Legacy scripts
-
-This repo also contains older split installers (forked from [SanjaySRocks/OGP-Installer](https://github.com/SanjaySRocks/OGP-Installer)):
-
-- `install-panel.sh` — panel only
-- `install-agent.sh` — agent only
-
-**Recommended:** use `install-ogp.sh` for a full automated setup.
-
 ## Credits
 
 | Project | Link |
